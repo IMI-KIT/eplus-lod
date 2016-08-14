@@ -3,9 +3,18 @@ package eu.dareed.eplus.lod;
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
-public class Output {
+public interface Output {
+    /**
+     * TODO: Properties
+     *
+     *  - environment (simulation output and input)
+     *  - vocabulary
+     */
 
-    int name;
+    SimulationResource getFeature();
+    SimulationResource getProperty();
+    SimulationResource getSensor();
 
-    OutputMetadata metadata;
+    SimulationResource getOutput();
+    SimulationResource getOservationQuality();
 }
