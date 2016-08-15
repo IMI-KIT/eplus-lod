@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -31,53 +30,53 @@ public class SimulationPublisher {
         this.lineParser = new DictionaryLineParser();
     }
 
-    List<OutputPublisher> selectOutputs() {
-        Function<Item, Optional<OutputPublisher>> selector = item -> {
-            List<? extends Field> fields = item.getFields();
-            String outputMetadataLiteral = fields.get(fields.size() - 1).stringValue();
-
-            if (!lineParser.test(outputMetadataLiteral)) {
-                return Optional.empty();
-            }
-
-            OutputMetadata metadata = lineParser.apply(outputMetadataLiteral);
-            String[] tokens = metadata.name.split(":");
-
-            if (tokens.length > 1) {
-                int propertyIndex = matchResource(properties, tokens);
-                int resourceIndex = matchResource(resources, tokens);
-
-                if (propertyIndex + resourceIndex <= 0) {
-                    return Optional.empty();
-                }
-
-                if (!units.containsResource(metadata.unit)) {
-                    return Optional.empty();
-                }
-
-                SimulationResource property = properties.getResource(tokens[propertyIndex]);
-                SimulationResource resource = resources.getResource(tokens[resourceIndex]);
-                SimulationResource unit = units.getResource(metadata.unit);
-
-                return Optional.of(
-                        new NaiiveOutputPublisher(
-                                metadata,
-                                unit,
-                                resource,
-                                property)
-                );
-            } else {
-                return Optional.empty();
-            }
-        };
-
-        return selectReportItems().stream()
-                .map(selector)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+    private List<OutputPublisher> selectOutputs() {
+        return selectReportItems().stream().map(this::processItem).filter(Optional::isPresent).map(Optional::get)
                 .collect(Collectors.toList());
     }
 
+    private Optional<OutputPublisher> processItem(Item item) {
+        List<? extends Field> fields = item.getFields();
+        String outputMetadataLiteral = fields.get(fields.size() - 1).stringValue();
+
+        if (!lineParser.test(outputMetadataLiteral)) {
+            // log metadata not parsable
+            return Optional.empty();
+        }
+
+        OutputMetadata metadata = lineParser.apply(outputMetadataLiteral);
+        String[] tokens = metadata.name.split(":");
+
+        if (tokens.length > 1) {
+            int propertyIndex = matchResource(properties, tokens);
+            int resourceIndex = matchResource(resources, tokens);
+
+            if (propertyIndex + resourceIndex <= 0) {
+                // log property & resource not found
+                return Optional.empty();
+            }
+
+            if (!units.containsResource(metadata.unit)) {
+                // log not unit found.
+                return Optional.empty();
+            }
+
+            SimulationResource property = properties.getResource(tokens[propertyIndex]);
+            SimulationResource resource = resources.getResource(tokens[resourceIndex]);
+            SimulationResource unit = units.getResource(metadata.unit);
+
+            return Optional.of(new NaiiveOutputPublisher(metadata, unit, resource, property));
+        } else {
+            // log not parsable name
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Returns the items in the data dictionary that represent actual inputs. These are the items with report codes > 5.
+     *
+     * @return a list of energy plus outputs.
+     */
     private List<Item> selectReportItems() {
         return output.getDataDictionary().stream()
                 .filter(item -> item.getField(1).integerValue() > 5)
