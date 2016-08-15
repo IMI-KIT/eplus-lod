@@ -3,7 +3,7 @@ package eu.dareed.eplus.lod;
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
-public interface Output {
+public interface OutputPublisher {
     /**
      * TODO: Properties
      *
@@ -16,5 +16,6 @@ public interface Output {
     SimulationResource getSensor();
 
     SimulationResource getOutput();
+    SimulationResource getObservation();
     SimulationResource getOservationQuality();
 }

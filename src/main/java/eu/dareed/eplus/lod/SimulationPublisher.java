@@ -11,6 +11,7 @@ public class SimulationPublisher {
 
     ESO output;
 
-    Map<String, SimulationResource> resources;
-    Map<String, SimulationResource> properties;
+    Mapper resources;
+    Mapper properties;
+    Mapper units;
 }
