@@ -17,5 +17,5 @@ public interface OutputPublisher {
 
     SimulationResource getOutput();
     SimulationResource getObservation();
-    SimulationResource getOservationQuality();
+    SimulationResource getObservationQuality();
 }
