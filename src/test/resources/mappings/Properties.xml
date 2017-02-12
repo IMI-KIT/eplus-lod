@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mapping xmlns="http://imi.kit.edu/rdfMapping">
+    <namespaces>
+        <ns>
+            <prefix>defaultns</prefix>
+            <uri>http://dareed.eu/resources/</uri>
+        </ns>
+        <ns>
+            <prefix>eplus</prefix>
+            <uri>http://dareed.eu/ontology/energyplus#</uri>
+        </ns>
+        <ns>
+            <prefix>rdfs</prefix>
+            <uri>http://www.w3.org/2000/01/rdf-schema#</uri>
+        </ns>
+        <ns>
+            <prefix>xsd</prefix>
+            <uri>http://www.w3.org/2001/XMLSchema#</uri>
+        </ns>
+        <ns>
+            <prefix>ssn</prefix>
+            <uri>http://purl.oclc.org/NET/ssnx/ssn#</uri>
+        </ns>
+    </namespaces>
+    <entities>
+        <entity>
+            <uri>:${simulationId}/${resource}/electricity</uri>
+            <name>Electricity</name>
+            <type>ssn:Property</type>
+        </entity>
+        <entity>
+            <uri>:${simulationId}/${resource}/co2</uri>
+            <name>CO2</name>
+            <type>ssn:Property</type>
+        </entity>
+    </entities>
+</mapping>
