@@ -38,7 +38,6 @@
                         <target>${java.version}</target>
                     </configuration>
                 </plugin>
-
             </plugins>
         </pluginManagement>
     </build>
@@ -47,7 +46,13 @@
         <dependency>
             <groupId>eu.dareed</groupId>
             <artifactId>eplus</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
+            <version>0.10.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.dareed</groupId>
+            <artifactId>rdf-mapper</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

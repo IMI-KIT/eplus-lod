@@ -57,7 +57,7 @@ public class SimulationPublisher {
             }
 
             if (!units.containsResource(metadata.unit)) {
-                // log not unit found.
+                // log unit not found.
                 return Optional.empty();
             }
 
@@ -67,7 +67,7 @@ public class SimulationPublisher {
 
             return Optional.of(new NaiiveOutputPublisher(metadata, unit, resource, property));
         } else {
-            // log not parsable name
+            // log name not parsable
             return Optional.empty();
         }
     }
