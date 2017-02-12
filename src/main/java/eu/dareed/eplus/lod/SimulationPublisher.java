@@ -45,9 +45,9 @@ public class SimulationPublisher {
         }
 
         OutputMetadata metadata = lineParser.apply(outputMetadataLiteral);
-        String[] tokens = metadata.name.split(":");
 
-        if (tokens.length > 1) {
+        if (metadata.hasCompoundName()) {
+            String[] tokens = metadata.name.split(":");
             int propertyIndex = matchResource(properties, tokens);
             int resourceIndex = matchResource(resources, tokens);
 

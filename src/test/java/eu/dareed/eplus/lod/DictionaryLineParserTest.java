@@ -32,6 +32,7 @@ public class DictionaryLineParserTest {
         OutputMetadata output = parser.parseOutput("CH4:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]");
 
         Assert.assertEquals("CH4:Facility", output.name);
+        Assert.assertTrue(output.hasCompoundName());
         Assert.assertEquals("kg", output.unit);
         Assert.assertEquals(ReportFrequency.RunPeriod, output.reportFrequency);
         Assert.assertArrayEquals(new String[] {"Value","Min","Month","Day","Hour","Minute","Max","Month","Day","Hour","Minute"}, output.schema.toArray());
@@ -42,6 +43,7 @@ public class DictionaryLineParserTest {
         OutputMetadata output = parser.parseOutput("Zone Thermal Comfort ASHRAE 55 Simple Model Summer or Winter Clothes Not Comfortable Time [hr] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]");
 
         Assert.assertEquals("Zone Thermal Comfort ASHRAE 55 Simple Model Summer or Winter Clothes Not Comfortable Time", output.name);
+        Assert.assertFalse(output.hasCompoundName());
         Assert.assertEquals("hr", output.unit);
         Assert.assertEquals(ReportFrequency.RunPeriod, output.reportFrequency);
         Assert.assertArrayEquals(new String[] {"Value","Min","Month","Day","Hour","Minute","Max","Month","Day","Hour","Minute"}, output.schema.toArray());
@@ -54,6 +56,7 @@ public class DictionaryLineParserTest {
         Assert.assertEquals("Electricity:Plant", output.name);
         Assert.assertEquals("J", output.unit);
         Assert.assertEquals(ReportFrequency.Hourly, output.reportFrequency);
+        Assert.assertTrue(output.hasCompoundName());
         Assert.assertTrue(output.schema.isEmpty());
     }
 

@@ -18,4 +18,8 @@ class OutputMetadata {
         this.reportFrequency = reportFrequency;
         this.schema = schema != null ? schema : Collections.emptyList();
     }
+
+    boolean hasCompoundName() {
+        return name.split(":").length == 2;
+    }
 }
