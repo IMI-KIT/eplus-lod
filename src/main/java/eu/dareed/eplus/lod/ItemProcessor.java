@@ -16,6 +16,7 @@ import java.util.Optional;
 public class ItemProcessor {
     public static final String OBSERVATION = "Observation";
     public static final String VARIABLE = "Variable";
+
     private final Map<String, Entity> resources;
     private final Map<String, Entity> properties;
     private final Map<String, Entity> units;
@@ -36,7 +37,7 @@ public class ItemProcessor {
         }
     }
 
-    private Optional<Observation> processItem(Item item) {
+    Optional<Observation> processItem(Item item) {
         List<? extends Field> fields = item.getFields();
         String outputMetadataLiteral = fields.get(fields.size() - 1).stringValue();
 
@@ -49,7 +50,7 @@ public class ItemProcessor {
 
         if (metadata.hasCompoundName()) {
             String[] tokensInOutputName = metadata.name.split(":");
-            int propertyIndex = matchResource(tokensInOutputName);
+            int propertyIndex = matchProperty(tokensInOutputName);
             int resourceIndex = matchResource(tokensInOutputName);
 
             if (propertyIndex + resourceIndex <= 0) {
@@ -81,10 +82,20 @@ public class ItemProcessor {
     private int matchResource(String[] outputName) {
         if (resources.containsKey(outputName[0])) {
             return 0;
+        } else if (resources.containsKey(outputName[1])) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+    private int matchProperty(String[] outputName) {
+        if (properties.containsKey(outputName[0])) {
+            return 0;
         } else if (properties.containsKey(outputName[1])) {
             return 1;
         } else {
-            return 0;
+            return -1;
         }
     }
 
