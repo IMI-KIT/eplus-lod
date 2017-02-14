@@ -1,6 +1,5 @@
 package eu.dareed.eplus.lod;
 
-import eu.dareed.eplus.model.Item;
 import eu.dareed.eplus.model.eso.ESO;
 import eu.dareed.eplus.parsers.eso.ESOParser;
 import eu.dareed.rdfmapper.MappingIO;
@@ -52,6 +51,22 @@ public class ItemProcessorTest {
     public void testGetInvalidObservation() {
         Optional<Observation> result = itemProcessor.processItem(output.getDataDictionary().get(7));
         Assert.assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void testResolveNamedPropertyVariable() {
+        Optional<Observation> result = itemProcessor.processItem(output.getDataDictionary().get(8));
+
+        Assert.assertTrue(result.isPresent());
+        Assert.assertEquals("Electricity", result.get().resolveNamedVariable("property"));
+    }
+
+    @Test
+    public void testResolvePropertyVariableByIndex() {
+        Optional<Observation> result = itemProcessor.processItem(output.getDataDictionary().get(8));
+
+        Assert.assertTrue(result.isPresent());
+        Assert.assertEquals("8", result.get().resolveIndex(0));
     }
 
     private static Mapping loadMapping(String path) throws IOException, JAXBException {
