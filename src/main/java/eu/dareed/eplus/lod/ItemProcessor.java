@@ -37,7 +37,7 @@ public class ItemProcessor {
         }
     }
 
-    Optional<Observation> processItem(Item item) {
+    Optional<ObservationMapping> processItem(Item item) {
         List<? extends Field> fields = item.getFields();
         String outputMetadataLiteral = fields.get(fields.size() - 1).stringValue();
 
@@ -63,8 +63,7 @@ public class ItemProcessor {
                 return Optional.empty();
             }
 
-            Observation observation = new Observation();
-            observation.dataDictionaryItem = item;
+            ObservationMapping observation = new ObservationMapping();
             observation.observation = observationMapping.get(OBSERVATION);
             observation.variable = observationMapping.get(VARIABLE);
 

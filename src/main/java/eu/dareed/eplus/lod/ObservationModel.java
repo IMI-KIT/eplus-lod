@@ -3,7 +3,6 @@ package eu.dareed.eplus.lod;
 import eu.dareed.eplus.model.Field;
 import eu.dareed.eplus.model.Item;
 import eu.dareed.rdfmapper.VariableResolver;
-import eu.dareed.rdfmapper.xml.nodes.Entity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,24 +12,20 @@ import java.util.function.Supplier;
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
-public class Observation implements VariableResolver {
-    Item dataDictionaryItem;
-
-    Entity observation;
-    Entity variable;
-
-    Entity resource;
-    Entity property;
-
-    Entity unit;
+public class ObservationModel implements VariableResolver {
+    final ObservationMapping observationMapping;
+    final Item dataDictionaryItem;
 
     private Map<String, Supplier<String>> variables;
 
-    public Observation() {
+    public ObservationModel(ObservationMapping observationMapping, Item dataDictionaryItem) {
+        this.observationMapping = observationMapping;
+        this.dataDictionaryItem = dataDictionaryItem;
+
         variables = new HashMap<>();
-        variables.put("property", () -> this.property.getName());
-        variables.put("resource", () -> this.resource.getName());
-        variables.put("unit", () -> this.resource.getName());
+        variables.put("property", () -> observationMapping.property.getName());
+        variables.put("resource", () -> observationMapping.resource.getName());
+        variables.put("unit", () -> observationMapping.unit.getName());
         variables.put("variableId", () -> Integer.toString(this.dataDictionaryItem.firstField().integerValue()));
     }
 
@@ -46,7 +41,6 @@ public class Observation implements VariableResolver {
         }
 
         List<? extends Field> fields = dataDictionaryItem.getFields();
-
         return index < fields.size() ? fields.get(index).stringValue() : null;
     }
 }
