@@ -21,6 +21,18 @@
             <prefix>ssn</prefix>
             <uri>http://purl.oclc.org/NET/ssnx/ssn#</uri>
         </ns>
+        <ns>
+            <prefix>qb</prefix>
+            <uri>http://www.wurvoc.org/vocabularies/om-1.8/</uri>
+        </ns>
+        <ns>
+            <prefix>om</prefix>
+            <uri>http://www.wurvoc.org/vocabularies/om-1.8/</uri>
+        </ns>
+        <ns>
+            <prefix>interval</prefix>
+            <uri>http://reference.data.gov.uk/def/intervals/</uri>
+        </ns>
     </namespaces>
     <entities>
         <entity>
@@ -54,6 +66,54 @@
                     <uri>ssn:observedBy</uri>
                     <object>${variableURL}</object>
                 </objectProperty>
+            </properties>
+        </entity>
+        <entity>
+            <uri>:#{simulationId}/observation/#{variableId}/${property}/result</uri>
+            <name>ObservationResult</name>
+            <type>eplus:OutputDataset</type>
+            <type>ssn:ObservationResult</type>
+        </entity>
+        <entity>
+            <uri></uri>
+            <name>ObservationValue</name>
+            <type>qb:Observation</type>
+            <type>ssn:ObservationValue</type>
+            <type>eplus:SimulationValue</type>
+            <type>om:Measure</type>
+            <properties>
+                <objectProperty>
+                    <uri>qb:dataSet</uri>
+                    <object>${dataSetURL}</object>
+                </objectProperty>
+                <dataProperty>
+                    <uri>om:numerical_value</uri>
+                    <value>#{1}</value>
+                </dataProperty>
+                <objectProperty>
+                    <uri>om:unit_of_measure_or_measurement_scale</uri>
+                    <object>${unitURL}</object>
+                </objectProperty>
+                <dataProperty>
+                    <uri>eplus:dayOfSimulation</uri>
+                    <value>${day}</value>
+                </dataProperty>
+                <dataProperty>
+                    <uri>interval:ordinalMonthOfYear</uri>
+                    <value>${month}</value>
+                </dataProperty>
+                <dataProperty>
+                    <uri>interval:ordinalDayOfMonth</uri>
+                    <value>${day}</value>
+                </dataProperty>
+                <dataProperty>
+                    <uri>eplus:startMinute</uri>
+                    <value>${startMinute}</value>
+                </dataProperty>
+                <dataProperty>
+                    <uri>eplus:endMinute</uri>
+                    <value>${endMinute}</value>
+                </dataProperty>
             </properties>
         </entity>
     </entities>
