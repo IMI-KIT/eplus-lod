@@ -84,7 +84,7 @@
             <properties>
                 <objectProperty>
                     <uri>qb:dataSet</uri>
-                    <object>${dataSetURL}</object>
+                    <object>${observationResultURL}</object>
                 </objectProperty>
                 <dataProperty>
                     <uri>om:numerical_value</uri>
