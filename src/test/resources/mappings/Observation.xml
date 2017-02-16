@@ -60,7 +60,7 @@
                 </objectProperty>
                 <objectProperty>
                     <uri>ssn:observationResult</uri>
-                    <object>${resultSetURL}</object>
+                    <object>${observationResultURL}</object>
                 </objectProperty>
                 <objectProperty>
                     <uri>ssn:observedBy</uri>
