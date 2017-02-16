@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 class DictionaryLineParser implements Predicate<String>, Function<String, OutputMetadata> {
 
-    private static final Pattern outputPattern = Pattern.compile("(.+) \\[(\\w+)\\] !(\\w+)( \\[(.+)\\])?");
+    private static final Pattern outputPattern = Pattern.compile("(.+) \\[(\\w+)] !(\\w+)( \\[(.+)])?");
 
     OutputMetadata parseOutput(String output) {
         MatchResult matcher = matchOutput(output);
