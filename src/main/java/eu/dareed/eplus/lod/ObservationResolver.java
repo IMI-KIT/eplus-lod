@@ -12,7 +12,7 @@ import java.util.Map;
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
 public class ObservationResolver implements VariableResolver {
-    final Item dataDictionaryItem;
+    private final Item dataDictionaryItem;
 
     Map<String, String> variableMappings;
 

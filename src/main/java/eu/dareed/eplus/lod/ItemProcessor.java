@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class ItemProcessor {
     public static final String OBSERVATION = "Observation";
-    public static final String VARIABLE = "Sensor";
+    public static final String SENSOR = "Sensor";
 
     private final Map<String, Entity> resources;
     private final Map<String, Entity> properties;
@@ -32,7 +32,7 @@ public class ItemProcessor {
 
         this.lineParser = new DictionaryLineParser();
 
-        if (!(this.observationMapping.containsKey(OBSERVATION) && this.observationMapping.containsKey(VARIABLE))) {
+        if (!(this.observationMapping.containsKey(OBSERVATION) && this.observationMapping.containsKey(SENSOR))) {
             throw new IllegalArgumentException("Observation mapping file is invalid. It should define mappings for both the Variable & Observation entities");
         }
     }
@@ -65,7 +65,7 @@ public class ItemProcessor {
 
             ObservationMapping observation = new ObservationMapping();
             observation.observation = observationMapping.get(OBSERVATION);
-            observation.sensor = observationMapping.get(VARIABLE);
+            observation.sensor = observationMapping.get(SENSOR);
 
             observation.unit = units.get(metadata.unit);
             observation.resource = resources.get(tokensInOutputName[resourceIndex]);
