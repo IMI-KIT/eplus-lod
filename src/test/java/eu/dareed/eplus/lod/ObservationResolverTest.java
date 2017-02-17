@@ -44,7 +44,7 @@ public class ObservationResolverTest {
         Optional<ObservationMapping> result = itemProcessor.processItem(dataDictionaryItem);
 
         Assert.assertTrue(result.isPresent());
-        ObservationResolver model = new ObservationResolver(result.get(), dataDictionaryItem);
+        ObservationResolver model = result.get().createObservationResolver(dataDictionaryItem);
         Assert.assertEquals("Electricity", model.resolveNamedVariable("property"));
     }
 
@@ -55,7 +55,7 @@ public class ObservationResolverTest {
 
         Assert.assertTrue(result.isPresent());
 
-        ObservationResolver model = new ObservationResolver(result.get(), dataDictionaryItem);
+        ObservationResolver model = result.get().createObservationResolver(dataDictionaryItem);
         Assert.assertEquals("8", model.resolveIndex(0));
     }
 

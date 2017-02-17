@@ -7,33 +7,25 @@ import eu.dareed.rdfmapper.VariableResolver;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
 public class ObservationResolver implements VariableResolver {
-    final ObservationMapping observationMapping;
     final Item dataDictionaryItem;
 
-    private Map<String, Supplier<String>> variables;
     Map<String, String> variableMappings;
 
-    public ObservationResolver(ObservationMapping observationMapping, Item dataDictionaryItem) {
-        this.observationMapping = observationMapping;
+    public ObservationResolver(Item dataDictionaryItem) {
         this.dataDictionaryItem = dataDictionaryItem;
         this.variableMappings = new HashMap<>();
 
-        variables = new HashMap<>();
-        variables.put("property", () -> observationMapping.property.getName());
-        variables.put("resource", () -> observationMapping.resource.getName());
-        variables.put("unit", () -> observationMapping.unit.getName());
-        variables.put("variableId", () -> Integer.toString(this.dataDictionaryItem.firstField().integerValue()));
+        variableMappings = new HashMap<>();
     }
 
     @Override
     public String resolveNamedVariable(String variableName) {
-        return variables.containsKey(variableName) ? variables.get(variableName).get() : null;
+        return variableMappings.containsKey(variableName) ? variableMappings.get(variableName) : null;
     }
 
     @Override
