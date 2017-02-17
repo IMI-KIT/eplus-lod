@@ -12,15 +12,17 @@ import java.util.function.Supplier;
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
-public class ObservationModel implements VariableResolver {
+public class ObservationResolver implements VariableResolver {
     final ObservationMapping observationMapping;
     final Item dataDictionaryItem;
 
     private Map<String, Supplier<String>> variables;
+    Map<String, String> variableMappings;
 
-    public ObservationModel(ObservationMapping observationMapping, Item dataDictionaryItem) {
+    public ObservationResolver(ObservationMapping observationMapping, Item dataDictionaryItem) {
         this.observationMapping = observationMapping;
         this.dataDictionaryItem = dataDictionaryItem;
+        this.variableMappings = new HashMap<>();
 
         variables = new HashMap<>();
         variables.put("property", () -> observationMapping.property.getName());

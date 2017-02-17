@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
 class DictionaryLineParser implements Predicate<String>, Function<String, OutputMetadata> {
-
     private static final Pattern outputPattern = Pattern.compile("(.+) \\[(\\w+)] !(\\w+)( \\[(.+)])?");
 
     OutputMetadata parseOutput(String output) {

@@ -1,5 +1,6 @@
 package eu.dareed.eplus.lod;
 
+import eu.dareed.eplus.model.Item;
 import eu.dareed.eplus.model.eso.ESO;
 import eu.dareed.eplus.parsers.eso.ESOParser;
 import eu.dareed.rdfmapper.xml.nodes.Mapping;
@@ -17,7 +18,7 @@ import static eu.dareed.eplus.lod.Tests.loadMapping;
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
-public class ItemProcessorTest {
+public class ObservationModelTest {
     private static ItemProcessor itemProcessor;
     private static ESO output;
 
@@ -33,24 +34,30 @@ public class ItemProcessorTest {
             output = new ESOParser().parseFile(esoStream);
         }
 
-        ItemProcessorTest.itemProcessor = new ItemProcessor(resourcesMapping, propertiesMapping, unitsMapping, observationsMapping);
-        ItemProcessorTest.output = output;
+        ObservationModelTest.itemProcessor = new ItemProcessor(resourcesMapping, propertiesMapping, unitsMapping, observationsMapping);
+        ObservationModelTest.output = output;
     }
 
     @Test
-    public void testGetValidObservation() {
-        Optional<ObservationMapping> result = itemProcessor.processItem(output.getDataDictionary().get(8));
+    public void testResolveNamedPropertyVariable() {
+        Item dataDictionaryItem = output.getDataDictionary().get(8);
+        Optional<ObservationMapping> result = itemProcessor.processItem(dataDictionaryItem);
+
+        Assert.assertTrue(result.isPresent());
+        ObservationResolver model = new ObservationResolver(result.get(), dataDictionaryItem);
+        Assert.assertEquals("Electricity", model.resolveNamedVariable("property"));
+    }
+
+    @Test
+    public void testResolvePropertyVariableByIndex() {
+        Item dataDictionaryItem = output.getDataDictionary().get(8);
+        Optional<ObservationMapping> result = itemProcessor.processItem(dataDictionaryItem);
+
         Assert.assertTrue(result.isPresent());
 
-        ObservationMapping observation = result.get();
-        Assert.assertEquals("J", observation.unit.getName());
-        Assert.assertEquals("Electricity", observation.property.getName());
-        Assert.assertEquals("Facility", observation.resource.getName());
+        ObservationResolver model = new ObservationResolver(result.get(), dataDictionaryItem);
+        Assert.assertEquals("8", model.resolveIndex(0));
     }
 
-    @Test
-    public void testGetInvalidObservation() {
-        Optional<ObservationMapping> result = itemProcessor.processItem(output.getDataDictionary().get(7));
-        Assert.assertFalse(result.isPresent());
-    }
+
 }
