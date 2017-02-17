@@ -18,7 +18,7 @@ import static eu.dareed.eplus.lod.Tests.loadMapping;
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
-public class ObservationModelTest {
+public class ObservationResolverTest {
     private static ItemProcessor itemProcessor;
     private static ESO output;
 
@@ -34,8 +34,8 @@ public class ObservationModelTest {
             output = new ESOParser().parseFile(esoStream);
         }
 
-        ObservationModelTest.itemProcessor = new ItemProcessor(resourcesMapping, propertiesMapping, unitsMapping, observationsMapping);
-        ObservationModelTest.output = output;
+        ObservationResolverTest.itemProcessor = new ItemProcessor(resourcesMapping, propertiesMapping, unitsMapping, observationsMapping);
+        ObservationResolverTest.output = output;
     }
 
     @Test
