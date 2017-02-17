@@ -1,7 +1,10 @@
 package eu.dareed.eplus.lod;
 
+import eu.dareed.eplus.model.Item;
 import eu.dareed.eplus.model.eso.ESO;
+import eu.dareed.rdfmapper.Environment;
 import eu.dareed.rdfmapper.NamespaceResolver;
+import eu.dareed.rdfmapper.VariableResolver;
 import eu.dareed.rdfmapper.xml.nodes.Mapping;
 import eu.dareed.rdfmapper.xml.nodes.Namespace;
 import org.apache.jena.rdf.model.Model;
@@ -9,10 +12,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
@@ -25,7 +25,7 @@ public class SimulationPublisher {
     Mapping propertiesMapping;
     Mapping unitsMapping;
 
-    DictionaryLineParser lineParser;
+    ItemProcessor itemProcessor;
 
     SimulationPublisher(Mapping observationMapping, Mapping resourcesMapping, Mapping propertiesMapping, Mapping unitsMapping) {
         this.observationMapping = observationMapping;
@@ -33,17 +33,52 @@ public class SimulationPublisher {
         this.propertiesMapping = propertiesMapping;
         this.unitsMapping = unitsMapping;
 
-        this.lineParser = new DictionaryLineParser();
+        this.itemProcessor = new ItemProcessor(resourcesMapping, propertiesMapping, unitsMapping, observationMapping);
     }
 
-    public Model createModel(ESO simulationOutput) {
+    public Model createModel(ESO simulationOutput, String environmentName, long simulationId) {
+        if (!simulationOutput.getEnvironments().containsKey(environmentName)) {
+            return ModelFactory.createDefaultModel();
+        }
+
         NamespaceResolver resolver = initializeNamespaceResolver();
+
+        // TODO: Inject simulationId
+        Environment baseEnvironment = new Environment(resolver);
 
         Model model = ModelFactory.createDefaultModel();
         model.setNsPrefixes(resolver.getNamespaceMap());
-        // Map those outputs
+
+        Map<Integer, ObservationMapping> dataDictionaryMappings = collectDataDictionaryMappings(simulationOutput);
+
+        List<Item> dataDictionary = simulationOutput.getDataDictionary();
+        for (Integer itemIndex : dataDictionaryMappings.keySet()) {
+            Item dataDictionaryItem = dataDictionary.get(itemIndex);
+
+            ObservationMapping mapping = dataDictionaryMappings.get(itemIndex);
+            VariableResolver observationResolver = new ObservationEnvironment(resolver, mapping, mapping.createObservationResolver(dataDictionaryItem));
+
+            Environment observationEnvironment = baseEnvironment.augment(observationResolver);
+
+            model.add(mapping.describeObservation(observationEnvironment));
+        }
 
         return model;
+    }
+
+    protected Map<Integer, ObservationMapping> collectDataDictionaryMappings(ESO simulationOutput) {
+        Map<Integer, ObservationMapping> items = new HashMap<>();
+
+        List<Item> dataDictionary = simulationOutput.getDataDictionary();
+        for (int dataDictionaryItem = 0; dataDictionaryItem < dataDictionary.size(); dataDictionaryItem++) {
+            Optional<ObservationMapping> mapping = itemProcessor.processItem(dataDictionary.get(dataDictionaryItem));
+
+            if (mapping.isPresent()) {
+                items.put(dataDictionaryItem, mapping.get());
+            }
+        }
+
+        return items;
     }
 
     protected NamespaceResolver initializeNamespaceResolver() {

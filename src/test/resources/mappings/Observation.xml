@@ -64,7 +64,7 @@
                 </objectProperty>
                 <objectProperty>
                     <uri>ssn:observedBy</uri>
-                    <object>${variableURL}</object>
+                    <object>${sensorURL}</object>
                 </objectProperty>
             </properties>
         </entity>

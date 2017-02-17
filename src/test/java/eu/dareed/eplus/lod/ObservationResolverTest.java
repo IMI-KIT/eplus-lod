@@ -30,7 +30,7 @@ public class ObservationResolverTest {
         Mapping observationsMapping = loadMapping("/mappings/Observation.xml");
 
         ESO output;
-        try (InputStream esoStream = ItemProcessorTest.class.getResourceAsStream("/fixtures/outputs/eplusout.eso")) {
+        try (InputStream esoStream = ObservationResolverTest.class.getResourceAsStream("/fixtures/outputs/eplusout.eso")) {
             output = new ESOParser().parseFile(esoStream);
         }
 
@@ -58,6 +58,4 @@ public class ObservationResolverTest {
         ObservationResolver model = result.get().createObservationResolver(dataDictionaryItem);
         Assert.assertEquals("8", model.resolveIndex(0));
     }
-
-
 }
