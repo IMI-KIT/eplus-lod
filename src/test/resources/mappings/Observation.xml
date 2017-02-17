@@ -37,7 +37,7 @@
     <entities>
         <entity>
             <uri>:${simulationId}/sensors/${variableId}</uri>
-            <name>Variable</name>
+            <name>Sensor</name>
             <properties>
                 <dataProperty>
                     <uri>eplus:variableId</uri>

@@ -7,7 +7,7 @@ import eu.dareed.rdfmapper.xml.nodes.Entity;
  */
 class ObservationMapping {
     Entity observation;
-    Entity variable;
+    Entity sensor;
 
     Entity resource;
     Entity property;

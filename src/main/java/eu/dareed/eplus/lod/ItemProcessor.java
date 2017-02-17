@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class ItemProcessor {
     public static final String OBSERVATION = "Observation";
-    public static final String VARIABLE = "Variable";
+    public static final String VARIABLE = "Sensor";
 
     private final Map<String, Entity> resources;
     private final Map<String, Entity> properties;
@@ -65,7 +65,7 @@ public class ItemProcessor {
 
             ObservationMapping observation = new ObservationMapping();
             observation.observation = observationMapping.get(OBSERVATION);
-            observation.variable = observationMapping.get(VARIABLE);
+            observation.sensor = observationMapping.get(VARIABLE);
 
             observation.unit = units.get(metadata.unit);
             observation.resource = resources.get(tokensInOutputName[resourceIndex]);
