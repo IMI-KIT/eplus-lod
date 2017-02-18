@@ -23,7 +23,7 @@
         </ns>
         <ns>
             <prefix>qb</prefix>
-            <uri>http://www.wurvoc.org/vocabularies/om-1.8/</uri>
+            <uri>http://purl.org/linked-data/cube#</uri>
         </ns>
         <ns>
             <prefix>om</prefix>
@@ -69,7 +69,7 @@
             </properties>
         </entity>
         <entity>
-            <uri>:#{simulationId}/observation/#{variableId}/${property}/result</uri>
+            <uri>:${simulationId}/observation/${variableId}/${property}/result</uri>
             <name>ObservationResult</name>
             <type>eplus:OutputDataset</type>
             <type>ssn:ObservationResult</type>
