@@ -11,8 +11,9 @@ import eu.dareed.rdfmapper.VariableResolver;
 public class ObservationEnvironment extends Environment implements VariableResolver {
     private final ObservationMapping observationMapping;
 
-    public ObservationEnvironment(NamespaceResolver namespaceResolver, ObservationMapping observationMapping, VariableResolver observationResolver) {
-        super(namespaceResolver, new Context(observationResolver));
+    public ObservationEnvironment(NamespaceResolver namespaceResolver, Context observationContext, ObservationMapping observationMapping) {
+        super(namespaceResolver, observationContext);
+
         this.observationMapping = observationMapping;
     }
 

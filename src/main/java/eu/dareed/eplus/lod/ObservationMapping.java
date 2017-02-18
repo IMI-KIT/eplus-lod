@@ -1,14 +1,14 @@
 package eu.dareed.eplus.lod;
 
 import eu.dareed.eplus.model.Item;
+import eu.dareed.rdfmapper.Context;
 import eu.dareed.rdfmapper.Environment;
+import eu.dareed.rdfmapper.VariableResolver;
 import eu.dareed.rdfmapper.xml.nodes.Entity;
 import eu.dareed.rdfmapper.xml.nodes.Property;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.vocabulary.RDF;
-
-import java.util.Map;
 
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
@@ -26,22 +26,23 @@ class ObservationMapping {
     ObservationMapping() {
     }
 
-    ObservationResolver createObservationResolver(Item dataDictionaryItem) {
+    VariableResolver createObservationResolver(Item dataDictionaryItem, Context baseContext) {
         ObservationResolver observationResolver = new ObservationResolver(dataDictionaryItem);
 
-        Map<String, String> variableMappings = observationResolver.variableMappings;
-        variableMappings.put("property", property.getName());
-        variableMappings.put("resource", resource.getName());
-        variableMappings.put("unit", unit.getName());
-        variableMappings.put("variableId", Integer.toString(dataDictionaryItem.firstField().integerValue()));
+        VariableMapping variableMapping = new VariableMapping();
+        variableMapping.mapVariable("property", property.getName());
+        variableMapping.mapVariable("resource", resource.getName());
+        variableMapping.mapVariable("unit", unit.getName());
+        variableMapping.mapVariable("variableId", Integer.toString(dataDictionaryItem.firstField().integerValue()));
 
-        return observationResolver;
+        return baseContext.augment(variableMapping);
     }
 
     public Model describeObservation(Environment dataDictionaryItemEnvironment) {
         Model result = ModelFactory.createDefaultModel();
 
         result.add(describe(observation, dataDictionaryItemEnvironment));
+        result.add(describe(observationResult, dataDictionaryItemEnvironment));
         result.add(describe(sensor, dataDictionaryItemEnvironment));
         result.add(describe(property, dataDictionaryItemEnvironment));
         result.add(describe(resource, dataDictionaryItemEnvironment));
@@ -58,7 +59,7 @@ class ObservationMapping {
 
         String subjectURL = environment.resolveURL(entityModel.getUri());
 
-        for (String type : resource.getTypes()) {
+        for (String type : entityModel.getTypes()) {
             model.add(model.createStatement(model.createResource(subjectURL),
                     RDF.type, model.createResource(environment.resolveURL(type))));
         }

@@ -2,6 +2,7 @@ package eu.dareed.eplus.lod;
 
 import eu.dareed.eplus.model.Item;
 import eu.dareed.eplus.model.eso.ESO;
+import eu.dareed.rdfmapper.Context;
 import eu.dareed.rdfmapper.Environment;
 import eu.dareed.rdfmapper.NamespaceResolver;
 import eu.dareed.rdfmapper.VariableResolver;
@@ -41,13 +42,14 @@ public class SimulationPublisher {
             return ModelFactory.createDefaultModel();
         }
 
-        NamespaceResolver resolver = initializeNamespaceResolver();
+        VariableMapping variableMapping = new VariableMapping();
+        variableMapping.mapVariable("simulationId", Long.toString(simulationId));
 
-        // TODO: Inject simulationId
-        Environment baseEnvironment = new Environment(resolver);
+        NamespaceResolver namespaceResolver = initializeNamespaceResolver();
+        Environment baseEnvironment = new Environment(namespaceResolver, variableMapping);
 
         Model model = ModelFactory.createDefaultModel();
-        model.setNsPrefixes(resolver.getNamespaceMap());
+        model.setNsPrefixes(namespaceResolver.getNamespaceMap());
 
         Map<Integer, ObservationMapping> dataDictionaryMappings = collectDataDictionaryMappings(simulationOutput);
 
@@ -56,9 +58,8 @@ public class SimulationPublisher {
             Item dataDictionaryItem = dataDictionary.get(itemIndex);
 
             ObservationMapping mapping = dataDictionaryMappings.get(itemIndex);
-            VariableResolver observationResolver = new ObservationEnvironment(resolver, mapping, mapping.createObservationResolver(dataDictionaryItem));
-
-            Environment observationEnvironment = baseEnvironment.augment(observationResolver);
+            Environment observationEnvironment = baseEnvironment.augment(mapping.createObservationResolver(dataDictionaryItem, baseEnvironment.getContext()));
+            observationEnvironment = observationEnvironment.augment(new ObservationEnvironment(namespaceResolver, observationEnvironment.getContext(), mapping));
 
             model.add(mapping.describeObservation(observationEnvironment));
         }
@@ -66,6 +67,12 @@ public class SimulationPublisher {
         return model;
     }
 
+    /**
+     * Maps data dictionary items' indexes to simulation output mappings.
+     *
+     * @param simulationOutput the output containing the data dictionary.
+     * @return a map of {@link ObservationMapping}s
+     */
     protected Map<Integer, ObservationMapping> collectDataDictionaryMappings(ESO simulationOutput) {
         Map<Integer, ObservationMapping> items = new HashMap<>();
 
