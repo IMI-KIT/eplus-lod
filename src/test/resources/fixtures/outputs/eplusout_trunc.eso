@@ -1,0 +1,354 @@
+Program Version,EnergyPlus, Version 8.3.0-6d97d074ea, YMD=2016.07.12 15:41
+1,5,Environment Title[],Latitude[deg],Longitude[deg],Time Zone[],Elevation[m]
+2,6,Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],Hour[],StartMinute[],EndMinute[],DayType
+3,3,Cumulative Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],DayType  ! When Daily Report Variables Requested
+4,2,Cumulative Days of Simulation[],Month[]  ! When Monthly Report Variables Requested
+5,1,Cumulative Days of Simulation[] ! When Run Period Report Variables Requested
+496,11,ZONE001,Zone Thermal Comfort ASHRAE 55 Simple Model Summer or Winter Clothes Not Comfortable Time [hr] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+497,11,ZONE002,Zone Thermal Comfort ASHRAE 55 Simple Model Summer or Winter Clothes Not Comfortable Time [hr] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+498,11,ZONE003,Zone Thermal Comfort ASHRAE 55 Simple Model Summer or Winter Clothes Not Comfortable Time [hr] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+8,1,Electricity:Facility [J] !Hourly
+11,11,Electricity:Facility [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+21,11,Electricity:Building [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+41,11,InteriorLights:Electricity [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+387,11,Electricity:Plant [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+18,1,Electricity:Building [J] !Hourly
+38,1,InteriorLights:Electricity [J] !Hourly
+384,1,Electricity:Plant [J] !Hourly
+535,11,DistrictCooling:Facility [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+504,11,DistrictHeating:Facility [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+356,11,ElectricityProduced:Facility [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+591,11,CO2:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+612,11,CO:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+633,11,CH4:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+654,11,NOx:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+675,11,N2O:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+696,11,SO2:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+717,11,PM:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+738,11,PM10:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+759,11,PM2.5:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+780,11,NH3:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+801,11,NMVOC:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+822,11,Hg:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+843,11,Pb:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+864,11,WaterEnvironmentalFactors:Facility [L] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+885,11,Nuclear High:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+906,11,Nuclear Low:Facility [m3] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+1323,11,Carbon Equivalent:Facility [kg] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+End of Data Dictionary
+1,SUMMER DESIGN DAY,  27.97, -82.53,  -5.00,   6.00
+2,1, 7,15, 0, 1, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0, 2, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0, 3, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0, 4, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0, 5, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0, 6, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0, 7, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0, 8, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0, 9, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,10, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,11, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,12, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,13, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,14, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,15, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,16, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,17, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,18, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,19, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,20, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,21, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,22, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,23, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+2,1, 7,15, 0,24, 0.00,60.00,SummerDesignDay
+8,83996907.12
+18,83996907.12
+38,26082000.
+384,0.0
+5,1
+496,10.,0.0, 7,15, 2,40,0.166666666666667, 7,15, 1,10
+497,12.6666666666667,0.0, 7,15, 3,40,0.166666666666667, 7,15, 1,10
+498,15.3333333333333,0.0, 7,15, 3,10,0.166666666666667, 7,15, 1,10
+11,2015925770.88,13999484.52, 7,15, 1,10,13999484.52, 7,15, 1,10
+21,2015925770.88,13999484.52, 7,15, 1,10,13999484.52, 7,15, 1,10
+41,625968000.,4347000., 7,15, 1,10,4347000., 7,15, 1,10
+356,590059858.886138,0.0, 7,15, 1,10,12100153.4989385, 7,15,13,40
+387,0.0,0.0, 7,15, 1,10,0.0, 7,15, 1,10
+504,0.0,0.0, 7,15, 1,10,0.0, 7,15, 1,10
+535,4589121843.64883,0.0, 7,15, 1,10,80506757.0318991, 7,15,17,60
+591,497.521004780084,2.3494586398884, 7,15,20,10,6.28721523397516, 7,15,19,10
+612,0.124316137423528,5.870618935503319E-004, 7,15,20,10,1.570993597312816E-003, 7,15,19,10
+633,4.133599645413446E-003,1.952022388491726E-005, 7,15,20,10,5.223665013557647E-005, 7,15,19,10
+654,1.21401055583064,5.732959135208350E-003, 7,15,20,10,1.534155460270249E-002, 7,15,19,10
+675,7.150004446086248E-003,3.376468442477749E-005, 7,15,20,10,9.035521404024745E-005, 7,15,19,10
+696,2.558731336131,1.208317515656138E-002, 7,15,20,10,3.233490542431152E-002, 7,15,19,10
+717,8.743383510277754E-002,4.128914705653472E-004, 7,15,20,10,1.104908807349836E-003, 7,15,19,10
+738,5.333331827147683E-002,2.518575581793308E-004, 7,15,20,10,6.739776771095194E-004, 7,15,19,10
+759,3.410051683130062E-002,1.610339123860163E-004, 7,15,20,10,4.309311302403160E-004, 7,15,19,10
+780,3.275868660158318E-003,1.546973464999861E-005, 7,15,20,10,4.139743075521630E-005, 7,15,19,10
+801,1.100454478174319E-002,5.196709800611059E-005, 7,15,20,10,1.390653679543040E-004, 7,15,19,10
+822,9.942962002205961E-006,4.695395321548428E-008, 7,15,20,10,1.256500561192141E-007, 7,15,19,10
+843,0.0,0.0, 7,15, 1,10,0.0, 7,15, 1,10
+864,6208.89082990428,29.3204348445357, 7,15,20,10,78.4622812641204, 7,15,19,10
+885,0.0,0.0, 7,15, 1,10,0.0, 7,15, 1,10
+906,0.0,0.0, 7,15, 1,10,0.0, 7,15, 1,10
+1323,0.0,0.0, 7,15, 1,10,0.0, 7,15, 1,10
+1,WINTER DESIGN DAY,  27.97, -82.53,  -5.00,   6.00
+2,1, 1,15, 0, 1, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0, 2, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0, 3, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0, 4, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0, 5, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0, 6, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0, 7, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0, 8, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0, 9, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,10, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,11, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,12, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,13, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,14, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,15, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,16, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,17, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,18, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,19, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,20, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,21, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,22, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,23, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1,15, 0,24, 0.00,60.00,WinterDesignDay
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+5,1
+496,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+497,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+498,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+11,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+21,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+41,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+356,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+387,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+504,12740317907.5031,0.0, 1,15,20,10,262134086.399247, 1,15, 6,10
+535,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+591,2133.34032829832,0.0, 1,15,20,10,43.8938197615781, 1,15, 6,10
+612,1.49333937643744,0.0, 1,15,20,10,3.072569742517248E-002, 1,15, 6,10
+633,4.088903109869876E-002,0.0, 1,15,20,10,8.412983795714696E-004, 1,15, 6,10
+654,1.77778396081299,0.0, 1,15,20,10,3.657819041615086E-002, 1,15, 6,10
+675,3.911124713788575E-002,0.0, 1,15,20,10,8.047201891553188E-004, 1,15, 6,10
+696,1.066670376487794E-002,0.0, 1,15,20,10,2.194691424969051E-004, 1,15, 6,10
+717,0.135111496086335,0.0, 1,15,20,10,2.779940724066889E-003, 1,15, 6,10
+738,0.101333515895435,0.0, 1,15,20,10,2.084953358599447E-003, 1,15, 6,10
+759,3.377789525544679E-002,0.0, 1,15,20,10,6.949856179068663E-004, 1,15, 6,10
+780,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+801,9.777811784471441E-002,0.0, 1,15,20,10,2.011800472888297E-003, 1,15, 6,10
+822,4.622187336842141E-006,0.0, 1,15,20,10,9.510224654564665E-008, 1,15, 6,10
+843,8.888919804064948E-006,0.0, 1,15,20,10,1.828909520807543E-007, 1,15, 6,10
+864,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+885,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+906,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+1323,0.0,0.0, 1,15, 1,10,0.0, 1,15, 1,10
+1,RESIDENTIAL,  27.97, -82.53,  -5.00,   6.00
+2,1, 1, 1, 0, 1, 0.00,60.00,Sunday
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1, 1, 0, 2, 0.00,60.00,Sunday
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+2,1, 1, 1, 0, 3, 0.00,60.00,Sunday
+8,0.0
+18,0.0
+38,0.0
+384,0.0
+End of Data
+ Number of Records Written=       35313

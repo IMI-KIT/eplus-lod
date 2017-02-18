@@ -60,8 +60,9 @@ public class SimulationPublisher {
             Item dataDictionaryItem = dataDictionary.get(itemIndex);
             ObservationMapping observationMapping = dataDictionaryMappings.get(itemIndex);
 
-            Environment observationEnvironment = baseEnvironment.augment(
-                    observationMapping.createObservationResolver(dataDictionaryItem, baseEnvironment.getContext()));
+            VariableResolver observationResolver = observationMapping.createObservationResolver(dataDictionaryItem, baseEnvironment.getContext());
+
+            Environment observationEnvironment = baseEnvironment.augment(observationResolver);
 
             observationEnvironment = observationEnvironment.augment(
                     new ObservationEnvironment(namespaceResolver, observationEnvironment.getContext(), observationMapping));
@@ -90,7 +91,6 @@ public class SimulationPublisher {
                 VariableResolver outputMetadata = valueMapping.createObservationValueResolver(dataPointsItem, observationEnvironment.getContext());
 
                 Environment valueEnvironment = observationEnvironment.augment(itemResolver).augment(outputMetadata);
-
 
                 model.add(valueMapping.describe(valueEnvironment));
             }

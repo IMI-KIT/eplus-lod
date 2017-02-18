@@ -30,9 +30,9 @@ class ObservationMapping {
 
     VariableResolver createObservationResolver(Item dataDictionaryItem, Context baseContext) {
         VariableMapping variableMapping = new VariableMapping();
-        variableMapping.mapVariable("properties", properties.get(0).getName());
-        variableMapping.mapVariable("resources", resources.get(0).getName());
-        variableMapping.mapVariable("units", units.get(0).getName());
+        variableMapping.mapVariable("property", properties.get(0).getName());
+        variableMapping.mapVariable("resource", resources.get(0).getName());
+        variableMapping.mapVariable("unit", units.get(0).getName());
         variableMapping.mapVariable("variableId", Integer.toString(dataDictionaryItem.firstField().integerValue()));
 
         return baseContext.augment(variableMapping);

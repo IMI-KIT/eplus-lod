@@ -4,6 +4,8 @@ import eu.dareed.eplus.model.eso.ESO;
 import eu.dareed.eplus.parsers.eso.ESOParser;
 import eu.dareed.rdfmapper.xml.nodes.Mapping;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.vocabulary.RDF;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,7 +30,7 @@ public class SimulationPublisherTest {
         Mapping observationsMapping = loadMapping("/mappings/Observation.xml");
 
         ESO output;
-        try (InputStream esoStream = SimulationPublisherTest.class.getResourceAsStream("/fixtures/outputs/eplusout.eso")) {
+        try (InputStream esoStream = SimulationPublisherTest.class.getResourceAsStream("/fixtures/outputs/eplusout_trunc.eso")) {
             output = new ESOParser().parseFile(esoStream);
         }
 
@@ -37,9 +39,11 @@ public class SimulationPublisherTest {
     }
 
     @Test
-    public void testPublishModel() {
+    public void testPublishModel() throws IOException {
         Model residential = simulationPublisher.createModel(simulationOutput, "RESIDENTIAL", 69);
 
-        residential.write(System.out, "TTL", null);
+        Assert.assertTrue(residential.contains(residential.createResource("http://dareed.eu/resources/69/observations/38/Electricity"), RDF.type));
+        Assert.assertTrue(residential.contains(residential.createResource("http://dareed.eu/resources/69/observations/18/Electricity"), RDF.type));
+        Assert.assertTrue(residential.contains(residential.createResource("http://dareed.eu/resources/69/observations/591/CO2"), RDF.type));
     }
 }
