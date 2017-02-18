@@ -43,9 +43,9 @@ public class ItemProcessorTest {
         Assert.assertTrue(result.isPresent());
 
         ObservationMapping observation = result.get();
-        Assert.assertEquals("J", observation.unit.getName());
-        Assert.assertEquals("Electricity", observation.property.getName());
-        Assert.assertEquals("Facility", observation.resource.getName());
+        Assert.assertEquals("J", observation.units.get(0).getName());
+        Assert.assertEquals("Electricity", observation.properties.get(0).getName());
+        Assert.assertEquals("Facility", observation.resources.get(0).getName());
     }
 
     @Test

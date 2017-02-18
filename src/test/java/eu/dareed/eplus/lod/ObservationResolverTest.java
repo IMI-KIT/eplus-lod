@@ -51,7 +51,7 @@ public class ObservationResolverTest {
 
         Assert.assertTrue(result.isPresent());
         VariableResolver model = result.get().createObservationResolver(dataDictionaryItem, baseContext);
-        Assert.assertEquals("Electricity", model.resolveNamedVariable("property"));
+        Assert.assertEquals("Electricity", model.resolveNamedVariable("properties"));
     }
 
     @Test

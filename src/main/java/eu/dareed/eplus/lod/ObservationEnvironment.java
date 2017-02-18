@@ -21,15 +21,17 @@ public class ObservationEnvironment extends Environment implements VariableResol
     public String resolveNamedVariable(String variableName) {
         switch (variableName) {
             case ("propertyURL"):
-                return resolveURL(observationMapping.property.getUri());
+                return resolveURL(observationMapping.properties.get(0).getUri());
             case "resourceURL":
-                return resolveURL(observationMapping.resource.getUri());
+                return resolveURL(observationMapping.resources.get(0).getUri());
             case "unitURL":
-                return resolveURL(observationMapping.unit.getUri());
+                return resolveURL(observationMapping.units.get(0).getUri());
             case "sensorURL":
-                return resolveURL(observationMapping.sensor.getUri());
+                return resolveURL(observationMapping.sensors.get(0).getUri());
+            case "observationURL":
+                return resolveURL(observationMapping.observations.get(0).getUri());
             case "observationResultURL":
-                return resolveURL(observationMapping.observationResult.getUri());
+                return resolveURL(observationMapping.observationResults.get(0).getUri());
             default:
                 return context.resolveNamedVariable(variableName);
         }

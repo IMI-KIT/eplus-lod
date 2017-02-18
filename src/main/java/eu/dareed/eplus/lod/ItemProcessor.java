@@ -5,10 +5,7 @@ import eu.dareed.eplus.model.Item;
 import eu.dareed.rdfmapper.xml.nodes.Entity;
 import eu.dareed.rdfmapper.xml.nodes.Mapping;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
@@ -19,10 +16,10 @@ public class ItemProcessor {
     public static final String OBSERVATION_RESULT = "ObservationResult";
     public static final String OBSERVATION_VALUE = "ObservationValue";
 
-    final Map<String, Entity> resources;
-    final Map<String, Entity> properties;
-    final Map<String, Entity> units;
-    final Map<String, Entity> observationMapping;
+    final Map<String, List<Entity>> resources;
+    final Map<String, List<Entity>> properties;
+    final Map<String, List<Entity>> units;
+    final Map<String, List<Entity>> observationMapping;
 
     private final DictionaryLineParser lineParser;
 
@@ -59,23 +56,23 @@ public class ItemProcessor {
             int resourceIndex = matchResource(tokensInOutputName);
 
             if (propertyIndex + resourceIndex <= 0) {
-                // log property & resource not found
+                // log properties & resources not found
                 return Optional.empty();
             }
 
             if (!units.containsKey(metadata.unit)) {
-                // log unit not found.
+                // log units not found.
                 return Optional.empty();
             }
 
             ObservationMapping observation = new ObservationMapping();
-            observation.observation = observationMapping.get(OBSERVATION);
-            observation.sensor = observationMapping.get(SENSOR);
-            observation.observationResult = observationMapping.get(OBSERVATION_RESULT);
+            observation.observations = observationMapping.get(OBSERVATION);
+            observation.sensors = observationMapping.get(SENSOR);
+            observation.observationResults = observationMapping.get(OBSERVATION_RESULT);
 
-            observation.unit = units.get(metadata.unit);
-            observation.resource = resources.get(tokensInOutputName[resourceIndex]);
-            observation.property = properties.get(tokensInOutputName[propertyIndex]);
+            observation.units = units.get(metadata.unit);
+            observation.resources = resources.get(tokensInOutputName[resourceIndex]);
+            observation.properties = properties.get(tokensInOutputName[propertyIndex]);
 
             return Optional.of(observation);
         } else {
@@ -104,12 +101,19 @@ public class ItemProcessor {
         }
     }
 
-    private Map<String, Entity> initializeMap(Mapping mapping) {
+    private Map<String, List<Entity>> initializeMap(Mapping mapping) {
         List<Entity> entities = mapping.getEntities();
 
-        Map<String, Entity> result = new HashMap<>(entities.size());
+        Map<String, List<Entity>> result = new HashMap<>(entities.size());
         for (Entity entity : entities) {
-            result.put(entity.getName(), entity);
+            List<Entity> entityList;
+            if (result.containsKey(entity.getName())) {
+                entityList = result.get(entity.getName());
+            } else {
+                entityList = new LinkedList<>();
+                result.put(entity.getName(), entityList);
+            }
+            entityList.add(entity);
         }
         return result;
     }

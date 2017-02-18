@@ -10,27 +10,29 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.vocabulary.RDF;
 
+import java.util.List;
+
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
 class ObservationMapping {
-    Entity observation;
-    Entity observationResult;
+    List<Entity> observations;
+    List<Entity> observationResults;
 
-    Entity sensor;
-    Entity resource;
-    Entity property;
+    List<Entity> sensors;
+    List<Entity> resources;
+    List<Entity> properties;
 
-    Entity unit;
+    List<Entity> units;
 
     ObservationMapping() {
     }
 
     VariableResolver createObservationResolver(Item dataDictionaryItem, Context baseContext) {
         VariableMapping variableMapping = new VariableMapping();
-        variableMapping.mapVariable("property", property.getName());
-        variableMapping.mapVariable("resource", resource.getName());
-        variableMapping.mapVariable("unit", unit.getName());
+        variableMapping.mapVariable("properties", properties.get(0).getName());
+        variableMapping.mapVariable("resources", resources.get(0).getName());
+        variableMapping.mapVariable("units", units.get(0).getName());
         variableMapping.mapVariable("variableId", Integer.toString(dataDictionaryItem.firstField().integerValue()));
 
         return baseContext.augment(variableMapping);
@@ -39,31 +41,30 @@ class ObservationMapping {
     public Model describeObservation(Environment dataDictionaryItemEnvironment) {
         Model result = ModelFactory.createDefaultModel();
 
-        result.add(describe(observation, dataDictionaryItemEnvironment));
-        result.add(describe(observationResult, dataDictionaryItemEnvironment));
-        result.add(describe(sensor, dataDictionaryItemEnvironment));
-        result.add(describe(property, dataDictionaryItemEnvironment));
-        result.add(describe(resource, dataDictionaryItemEnvironment));
+        result.add(describe(observations, dataDictionaryItemEnvironment));
+        result.add(describe(observationResults, dataDictionaryItemEnvironment));
+        result.add(describe(sensors, dataDictionaryItemEnvironment));
+        result.add(describe(properties, dataDictionaryItemEnvironment));
+        result.add(describe(resources, dataDictionaryItemEnvironment));
 
         return result;
     }
 
-    private Model describe(Entity entityModel, Environment environment) {
-        if (entityModel == null) {
-            return ModelFactory.createDefaultModel();
-        }
-
+    private Model describe(List<Entity> entityModels, Environment environment) {
         Model model = ModelFactory.createDefaultModel();
 
-        String subjectURL = environment.resolveURL(entityModel.getUri());
+        for (Entity entity : entityModels) {
+            String subjectURL = environment.resolveURL(entity.getUri());
 
-        for (String type : entityModel.getTypes()) {
-            model.add(model.createStatement(model.createResource(subjectURL),
-                    RDF.type, model.createResource(environment.resolveURL(type))));
-        }
+            for (String type : entity.getTypes()) {
+                model.add(model.createStatement(model.createResource(subjectURL),
+                        RDF.type, model.createResource(environment.resolveURL(type))));
+            }
 
-        for (Property property : entityModel.getProperties()) {
-            model.add(property.describe(subjectURL, environment));
+            for (Property property : entity.getProperties()) {
+                model.add(property.describe(subjectURL, environment));
+            }
+
         }
 
         return model;

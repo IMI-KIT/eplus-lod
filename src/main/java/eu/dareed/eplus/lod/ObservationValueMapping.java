@@ -11,14 +11,16 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 
+import java.util.List;
+
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
 public class ObservationValueMapping {
-    private final Entity observationMapping;
+    private final List<Entity> entityModels;
 
-    public ObservationValueMapping(Entity valueMapping) {
-        this.observationMapping = valueMapping;
+    public ObservationValueMapping(List<Entity> valueMapping) {
+        this.entityModels = valueMapping;
     }
 
     VariableResolver createObservationValueResolver(Item item, Context baseContext) {
@@ -34,25 +36,23 @@ public class ObservationValueMapping {
     }
 
     Model describe(Environment item) {
-        if (observationMapping == null) {
-            return ModelFactory.createDefaultModel();
-        }
-
         Model model = ModelFactory.createDefaultModel();
 
-        Resource subject;
-        if (observationMapping.getUri().isEmpty()) {
-            subject = model.createResource();
-        } else {
-            subject = model.createResource(item.resolveURL(observationMapping.getUri()));
-        }
+        for (Entity entity : entityModels) {
+            Resource subject;
+            if (entity.getUri().isEmpty()) {
+                subject = model.createResource();
+            } else {
+                subject = model.createResource(item.resolveURL(entity.getUri()));
+            }
 
-        for (String type : observationMapping.getTypes()) {
-            model.add(subject, RDF.type, model.createResource(item.resolveURL(type)));
-        }
+            for (String type : entity.getTypes()) {
+                model.add(subject, RDF.type, model.createResource(item.resolveURL(type)));
+            }
 
-        for (Property property : observationMapping.getProperties()) {
-            model.add(property.describe(model, subject, item));
+            for (Property property : entity.getProperties()) {
+                model.add(property.describe(model, subject, item));
+            }
         }
 
         return model;
