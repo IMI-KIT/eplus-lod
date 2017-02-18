@@ -17,11 +17,12 @@ public class ItemProcessor {
     public static final String OBSERVATION = "Observation";
     public static final String SENSOR = "Sensor";
     public static final String OBSERVATION_RESULT = "ObservationResult";
+    public static final String OBSERVATION_VALUE = "ObservationValue";
 
-    private final Map<String, Entity> resources;
-    private final Map<String, Entity> properties;
-    private final Map<String, Entity> units;
-    private final Map<String, Entity> observationMapping;
+    final Map<String, Entity> resources;
+    final Map<String, Entity> properties;
+    final Map<String, Entity> units;
+    final Map<String, Entity> observationMapping;
 
     private final DictionaryLineParser lineParser;
 
@@ -35,7 +36,8 @@ public class ItemProcessor {
 
         if (!(this.observationMapping.containsKey(OBSERVATION)
                 && this.observationMapping.containsKey(SENSOR))
-                && this.observationMapping.containsKey(OBSERVATION_RESULT)) {
+                && this.observationMapping.containsKey(OBSERVATION_RESULT)
+                && this.observationMapping.containsKey(OBSERVATION_VALUE)) {
             throw new IllegalArgumentException("Observation mapping file is invalid. It should define mappings for both the Variable & Observation entities");
         }
     }

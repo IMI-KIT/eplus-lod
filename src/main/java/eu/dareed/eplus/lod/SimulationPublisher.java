@@ -1,8 +1,9 @@
 package eu.dareed.eplus.lod;
 
 import eu.dareed.eplus.model.Item;
+import eu.dareed.eplus.model.eso.DataPoints;
 import eu.dareed.eplus.model.eso.ESO;
-import eu.dareed.rdfmapper.Context;
+import eu.dareed.eplus.model.eso.ESOItem;
 import eu.dareed.rdfmapper.Environment;
 import eu.dareed.rdfmapper.NamespaceResolver;
 import eu.dareed.rdfmapper.VariableResolver;
@@ -54,14 +55,45 @@ public class SimulationPublisher {
         Map<Integer, ObservationMapping> dataDictionaryMappings = collectDataDictionaryMappings(simulationOutput);
 
         List<Item> dataDictionary = simulationOutput.getDataDictionary();
+        Map<Integer, Environment> observationEnvironments = new HashMap<>(dataDictionaryMappings.size());
         for (Integer itemIndex : dataDictionaryMappings.keySet()) {
             Item dataDictionaryItem = dataDictionary.get(itemIndex);
+            ObservationMapping observationMapping = dataDictionaryMappings.get(itemIndex);
 
-            ObservationMapping mapping = dataDictionaryMappings.get(itemIndex);
-            Environment observationEnvironment = baseEnvironment.augment(mapping.createObservationResolver(dataDictionaryItem, baseEnvironment.getContext()));
-            observationEnvironment = observationEnvironment.augment(new ObservationEnvironment(namespaceResolver, observationEnvironment.getContext(), mapping));
+            Environment observationEnvironment = baseEnvironment.augment(
+                    observationMapping.createObservationResolver(dataDictionaryItem, baseEnvironment.getContext()));
 
-            model.add(mapping.describeObservation(observationEnvironment));
+            observationEnvironment = observationEnvironment.augment(
+                    new ObservationEnvironment(namespaceResolver, observationEnvironment.getContext(), observationMapping));
+
+            model.add(observationMapping.describeObservation(observationEnvironment));
+
+            observationEnvironments.put(dataDictionaryItem.firstField().integerValue(), observationEnvironment);
+        }
+
+        ObservationValueMapping valueMapping = new ObservationValueMapping(itemProcessor.observationMapping.get(ItemProcessor.OBSERVATION_VALUE));
+        for (DataPoints dataPoints : simulationOutput.getDataPoints(environmentName)) {
+            Item dataPointsItem = dataPoints.getItem();
+            if (dataPointsItem.getFields().size() < 9) {
+                continue;
+            }
+
+
+            for (ESOItem value : dataPoints.getData()) {
+                if (!observationEnvironments.containsKey(value.getDictionaryItem().firstField().integerValue())) {
+                    continue;
+                }
+
+                Environment observationEnvironment = observationEnvironments.get(value.getDictionaryItem().firstField().integerValue());
+
+                ItemResolver itemResolver = new ItemResolver(value);
+                VariableResolver outputMetadata = valueMapping.createObservationValueResolver(dataPointsItem, observationEnvironment.getContext());
+
+                Environment valueEnvironment = observationEnvironment.augment(itemResolver).augment(outputMetadata);
+
+
+                model.add(valueMapping.describe(valueEnvironment));
+            }
         }
 
         return model;

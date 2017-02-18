@@ -27,8 +27,6 @@ class ObservationMapping {
     }
 
     VariableResolver createObservationResolver(Item dataDictionaryItem, Context baseContext) {
-        ObservationResolver observationResolver = new ObservationResolver(dataDictionaryItem);
-
         VariableMapping variableMapping = new VariableMapping();
         variableMapping.mapVariable("property", property.getName());
         variableMapping.mapVariable("resource", resource.getName());

@@ -96,11 +96,15 @@
                 </objectProperty>
                 <dataProperty>
                     <uri>eplus:dayOfSimulation</uri>
-                    <value>${day}</value>
+                    <value>${dayOfSimulation}</value>
                 </dataProperty>
                 <dataProperty>
                     <uri>interval:ordinalMonthOfYear</uri>
                     <value>${month}</value>
+                </dataProperty>
+                <dataProperty>
+                    <uri>interval:ordinalHourOfDay</uri>
+                    <value>${hour}</value>
                 </dataProperty>
                 <dataProperty>
                     <uri>interval:ordinalDayOfMonth</uri>

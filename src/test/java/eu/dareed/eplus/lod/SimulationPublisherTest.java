@@ -40,6 +40,6 @@ public class SimulationPublisherTest {
     public void testPublishModel() {
         Model residential = simulationPublisher.createModel(simulationOutput, "RESIDENTIAL", 69);
 
-        residential.write(System.out, null, "TTL");
+        residential.write(System.out, "TTL", null);
     }
 }
