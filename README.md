@@ -16,10 +16,9 @@ result_.
 
 This library assumes that the four entities are indicated in the data
 dictionary section of the simulation output file. For example, given the line
-{{{
+```
 21,11,Electricity:Building [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
-}}}
-
+```
 we can assign:
 
  * `Electricity` to the property,
@@ -41,7 +40,7 @@ as a configuration. They are described below.
 This `Resources.xml` file describes the mapping of the entities. The entity
 names should correspond to the strings found in the data dictionary. Example:
 
-{{{xml
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping xmlns="http://imi.kit.edu/rdfMapping">
     <namespaces>
@@ -57,7 +56,7 @@ names should correspond to the strings found in the data dictionary. Example:
         </entity>
     </entities>
 </mapping>
-}}}
+```
 
 This will match `Facility` in the data dictionary and, if the other components
 are also present, construct an Observation linking to the Feature of Interest
@@ -68,7 +67,7 @@ assignment. Should you decide not to align with the SSN ontology, you are free t
 the Feature Of Interest type assignment. You could also assign object and data
 properties to the Facility entity. Keep in mind, however, that the entity will
 be mapped against the data dictionary item, which may not provide enough context
-to define the links and property values completely.
+to define the property values sufficiently.
 
 The `simulationId` fragment serves to distinguish the originating simulation
 run and is optional. This named variable is injected externally as we will see below.
@@ -78,7 +77,7 @@ run and is optional. This named variable is injected externally as we will see b
 Observation properties are configured in the `Properties.xml` files. An example
 is given below.
 
-{{{xml
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping xmlns="http://imi.kit.edu/rdfMapping">
     <namespaces>
@@ -98,7 +97,7 @@ is given below.
         </entity>
     </entities>
 </mapping>
-}}}
+```
 
 Again, the `name` tag is matched against the data dictionary item and hence
 must be identical with the data dictionary contents.
@@ -113,7 +112,7 @@ object property assignment pointing to the `resourceURL`.
 `Units.xml` configure units mappings. The example below demonstrates aligning
 against the [OM](http://www.wurvoc.org/vocabularies/om-1.8/) ontology.
 
-{{{xml
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping xmlns="http://imi.kit.edu/rdfMapping">
     <namespaces>
@@ -134,7 +133,7 @@ against the [OM](http://www.wurvoc.org/vocabularies/om-1.8/) ontology.
         </entity>
     </entities>
 </mapping>
-}}}
+```
 
 Here, we map directly to the concepts of the OM ontology.
 
@@ -150,7 +149,7 @@ The `Sensor` mapping distinguishes the Sensor entity of the pattern. Below, we
 assume that this is represented by the report code of the simulation output
 variable:
 
-{{{xml
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping xmlns="http://imi.kit.edu/rdfMapping">
     <!-- snip -->
@@ -160,7 +159,7 @@ variable:
     </entity>
     <!-- snip -->
 </mapping>
-}}}
+```
 
 #### Observation Result
 
@@ -168,7 +167,7 @@ The `ObservationResult` entity collects all references to the obtained
 simulation values. Below, we use a combination of the `variableId` and
 `property` variables to construct its URL.
 
-{{{xml
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping xmlns="http://imi.kit.edu/rdfMapping">
     <!-- snip -->
@@ -180,7 +179,7 @@ simulation values. Below, we use a combination of the `variableId` and
     </entity>
     <!-- snip -->
 </mapping>
-}}}
+```
 
 #### Observation
 
@@ -188,7 +187,7 @@ The `Observation` entity configures the central entity in the Observation
 pattern. By now, it should be obvious how to construct it keeping in mind
 that the mapper keeps record of the URLs of the entities defined above.
 
-{{{xml
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping xmlns="http://imi.kit.edu/rdfMapping">
     <!-- snip -->
@@ -217,7 +216,7 @@ that the mapper keeps record of the URLs of the entities defined above.
     </entity>
     <!-- snip -->
 </mapping>
-}}}
+```
 
 #### Observation Value
 
@@ -230,7 +229,7 @@ report code and `#{1}` to the numerical value.
 In the example below, we demonstrate how the detected unit of measurement is
 integrated within the frame of the OM ontology.
 
-{{{xml
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mapping xmlns="http://imi.kit.edu/rdfMapping">
     <!-- snip -->
@@ -258,7 +257,12 @@ integrated within the frame of the OM ontology.
     </entity>
     <!-- snip -->
 </mapping>
-}}}
+```
+
+Note that in the above example we have omitted specifying a URL for the value
+entity. In that case, the mapper produces an anonymous subject. Of course,
+you can opt to assign a URL from the combination of the properties on the
+value context.
 
 ## Variables Reference
 
