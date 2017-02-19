@@ -8,6 +8,10 @@
     <artifactId>eplus-lod</artifactId>
     <version>0.0.0-SNAPSHOT</version>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>EnergyPlus I/O interoperability via semantic web technologies</description>
+    <url>https://github.com/IMI-KIT/eplus-lod</url>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
@@ -63,4 +67,28 @@
         </dependency>
     </dependencies>
 
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+            <comments>A short and simple permissive license</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>ktonev</id>
+            <name>Kiril Tonev</name>
+            <email>kiril.tonev@gmail.com</email>
+            <organization>KIT</organization>
+            <organizationUrl>https://kit.edu</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/IMI-KIT/eplus-lod.git</connection>
+        <developerConnection>scm:git:ssh@github.com:IMI-KIT/eplus-lod.git</developerConnection>
+        <url>https://github.com/IMI-KIT/eplus-lod/tree/master</url>
+    </scm>
 </project>
