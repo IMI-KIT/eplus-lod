@@ -34,7 +34,7 @@ public class SimulationPublisherTest {
 
     @Test
     public void testPublishModel() throws IOException {
-        Model residential = simulationPublisher.createModel(simulationOutput, "RESIDENTIAL", 69);
+        Model residential = simulationPublisher.createModel(simulationOutput, "RESIDENTIAL", "69");
 
         Assert.assertTrue(residential.contains(residential.createResource("http://dareed.eu/resources/69/observations/38/Electricity"), RDF.type));
         Assert.assertTrue(residential.contains(residential.createResource("http://dareed.eu/resources/69/observations/18/Electricity"), RDF.type));

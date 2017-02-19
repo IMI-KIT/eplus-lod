@@ -38,13 +38,13 @@ public class SimulationPublisher {
         this.itemProcessor = new ItemProcessor(resourcesMapping, propertiesMapping, unitsMapping, observationMapping);
     }
 
-    public Model createModel(ESO simulationOutput, String environmentName, long simulationId) {
+    public Model createModel(ESO simulationOutput, String environmentName, String simulationId) {
         if (!simulationOutput.getEnvironments().containsKey(environmentName)) {
             return ModelFactory.createDefaultModel();
         }
 
         VariableMapping variableMapping = new VariableMapping();
-        variableMapping.mapVariable("simulationId", Long.toString(simulationId));
+        variableMapping.mapVariable("simulationId", simulationId);
 
         NamespaceResolver namespaceResolver = initializeNamespaceResolver();
         Environment baseEnvironment = new Environment(namespaceResolver, variableMapping);
