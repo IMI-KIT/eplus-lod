@@ -9,22 +9,28 @@ import org.apache.jena.rdf.model.Model;
 
 import javax.xml.bind.JAXBException;
 import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:kiril.tonev@kit.edu">Kiril Tonev</a>
  */
 public class Publish {
+    private static final String HEADER = "Exposes EnergyPlus simulation output files as linked open data\n\n";
+    private static final String FOOTER = "\nPlease, report issues at https://github.com/IMI-KIT/eplus-lod/issues";
+    private static final String CMD_LINE_SYNTAX = "publish [OPTION]...";
+
     private final Options options;
     private final HelpFormatter helpFormatter;
     private final MappingIO mappingIO;
 
-    Publish(Options options, HelpFormatter helpFormatter) {
+    private Publish(Options options, HelpFormatter helpFormatter) {
         this.options = options;
         this.helpFormatter = helpFormatter;
         this.mappingIO = new MappingIO();
     }
 
-    int execute(String[] args) {
+    private int execute(String[] args) {
         CommandLineParser parser = new DefaultParser();
 
         CommandLine commandLine;
@@ -36,12 +42,24 @@ public class Publish {
             return 1;
         }
 
+        List<String> offenses = validateCommandLine(commandLine);
+        if (!offenses.isEmpty()) {
+            System.err.println("Invalid or incomplete parameters: " + offenses.iterator().next());
+            helpFormatter.printHelp(
+                    CMD_LINE_SYNTAX,
+                    HEADER,
+                    options,
+                    FOOTER,
+                    false);
+            return 1;
+        }
+
         if (commandLine.hasOption('h')) {
             helpFormatter.printHelp(
-                    "publish",
-                    "Exposes EnergyPlus simulation output files as linked open data\n\n",
+                    CMD_LINE_SYNTAX,
+                    HEADER,
                     options,
-                    "Please, report issues at https://github.com/IMI-KIT/eplus-lod/issues",
+                    FOOTER,
                     false);
             return 0;
         }
@@ -75,18 +93,59 @@ public class Publish {
 
         Model model = publisher.createModel(input, simulationEnvironment, simulationId);
 
-        try (OutputStreamWriter out = new FileWriter(commandLine.getOptionValue('o'))) {
-            model.write(out, commandLine.getOptionValue('f'));
-        } catch (IOException e) {
-            System.err.println("Error while writing output: " + e.getMessage());
-            return 1;
+        String format;
+        if (commandLine.hasOption('o')) {
+            format = commandLine.getOptionValue('f');
+        } else {
+            format = "TTL";
+        }
+
+        if (commandLine.hasOption('o')) {
+            try (OutputStreamWriter out = new FileWriter(commandLine.getOptionValue('o'))) {
+                model.write(out, format);
+            } catch (IOException e) {
+                System.err.println("Error while writing output: " + e.getMessage());
+                return 1;
+            }
+        } else {
+            model.write(System.out, format);
         }
 
         return 0;
     }
 
-    Mapping loadMapping(String path) throws IOException, JAXBException {
+    private Mapping loadMapping(String path) throws IOException, JAXBException {
         return mappingIO.loadXML(new File(path));
+    }
+
+    private List<String> validateCommandLine(CommandLine commandLine) {
+        List<String> offenses = new LinkedList<>();
+
+        String requiredParameterMissing = "Missing required parameter";
+
+        if (!commandLine.hasOption('r')) {
+            offenses.add(String.format("%s: %s", requiredParameterMissing, "resources mapping"));
+        }
+        if (!commandLine.hasOption('u')) {
+            offenses.add(String.format("%s: %s", requiredParameterMissing, "units mapping"));
+        }
+        if (!commandLine.hasOption('x')) {
+            offenses.add(String.format("%s: %s", requiredParameterMissing, "observation mapping"));
+        }
+        if (!commandLine.hasOption('p')) {
+            offenses.add(String.format("%s: %s", requiredParameterMissing, "properties mapping"));
+        }
+        if (!commandLine.hasOption('n')) {
+            offenses.add(String.format("%s: %s", requiredParameterMissing, "simulation id"));
+        }
+        if (!commandLine.hasOption('i')) {
+            offenses.add(String.format("%s: %s", requiredParameterMissing, "input file path"));
+        }
+        if (!commandLine.hasOption('e')) {
+            offenses.add(String.format("%s: %s", requiredParameterMissing, "output environment"));
+        }
+
+        return offenses;
     }
 
     public static void main(String[] args) {
@@ -94,58 +153,59 @@ public class Publish {
 
         options.addOption(Option.builder("r")
                 .longOpt("resources")
-                .required(true)
                 .desc("path to the resources mapping file")
                 .hasArg()
+                .argName("resources")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("p")
                 .longOpt("properties")
-                .required(true)
                 .desc("path to the properties mapping file")
                 .hasArg()
+                .argName("properties")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("u")
                 .longOpt("units")
-                .required(true)
                 .desc("path to the units mapping file")
                 .hasArg()
+                .argName("units")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("x")
                 .longOpt("observation")
-                .required(true)
                 .desc("path to the observation mapping file")
                 .hasArg()
+                .argName("observation")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("n")
                 .longOpt("simulation-id")
-                .required(true)
                 .desc("simulation Id")
                 .hasArg()
+                .argName("simulationId")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("f")
                 .longOpt("format")
-                .required(true)
-                .desc("TURTLE (ttl) or XML")
+                .desc("TURTLE (ttl) or XML; default=TTL")
                 .hasArg()
+                .argName("format")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("i")
                 .longOpt("input")
-                .required(true)
                 .desc("input ESO file")
                 .hasArg()
+                .argName("input")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("o")
                 .longOpt("output")
                 .required(true)
-                .desc("output file path")
+                .desc("output file path; if not given, output is stdout")
                 .hasArg()
+                .argName("output")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("e")
@@ -153,6 +213,7 @@ public class Publish {
                 .required(true)
                 .desc("environment name to export")
                 .hasArg()
+                .argName("environment")
                 .numberOfArgs(1).build());
 
         options.addOption(Option.builder("h")
