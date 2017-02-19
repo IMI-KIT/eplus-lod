@@ -185,7 +185,7 @@ simulation values. Below, we use a combination of the `variableId` and
 
 The `Observation` entity configures the central entity in the Observation
 pattern. By now, it should be obvious how to construct it keeping in mind
-that the mapper keeps record of the URLs of the entities defined above.
+that the mapper remembers the URLs of the entities defined above.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -296,8 +296,8 @@ java -jar eplus-lod-0.0.0.jar \
 ```
 
 This will assign the value `42` to the `simulationId` variable and export
-the data in the `RESIDENTIAL` output environment into the file `export.ttl`
-using the TURTLE format.
+the data in the `RESIDENTIAL` output environment in `eplusout.eso` into the
+file `export.ttl` using the TURTLE format.
 
 ## Command-Line Reference
 
