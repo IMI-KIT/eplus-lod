@@ -37,7 +37,7 @@ as a configuration. They are described below.
 
 ### Resources
 
-This `Resources.xml` file describes the mapping of the entities. The entity
+The `Resources.xml` file describes the mapping of the entities. The entity
 names should correspond to the strings found in the data dictionary. Example:
 
 ```xml
@@ -62,7 +62,7 @@ This will match `Facility` in the data dictionary and, if the other components
 are also present, construct an Observation linking to the Feature of Interest
 with the indicated `uri` URL pattern.
 
-Note, that you can completely customize the URL mapping and the types
+Note that you can completely customize the URL mapping and the types
 assignment. Should you decide not to align with the SSN ontology, you are free to omit
 the Feature Of Interest type assignment. You could also assign object and data
 properties to the Facility entity. Keep in mind, however, that the entity will
@@ -261,8 +261,59 @@ integrated within the frame of the OM ontology.
 
 Note that in the above example we have omitted specifying a URL for the value
 entity. In that case, the mapper produces an anonymous subject. Of course,
-you can opt to assign a URL from the combination of the properties on the
+you can opt to assign a URL from the combination of the properties in the
 value context.
+
+## Usage
+
+### Prerequisites
+
+The library builds with maven and requires Java 8. Additionally, until it is
+released proper, you need to download and install its dependencies
+[eplus-io](https://github.com/attadanta/energyplus-io) and
+[rdf-mapper](https://github.com/attadanta/rdf-mapper) manually, in that order.
+
+### Exporting EnergyPlus Data
+
+An executable jar can be produced via `mvn package`. If that succeeds,
+everything is set.
+
+You can find a full set of mapping files and a sample output file in the
+`/src/test/resources` folder. You may want to review them before proceeding.
+
+A RDF file can be produced directly by the jar file like this:
+```sh
+java -jar eplus-lod-0.0.0.jar \
+    --properties Properties.xml \
+    --resources Resources.xml \
+    --units Units.xml \
+    --observation Observation.xml \
+    --input eplusout.eso \
+    --output export.ttl \
+    --format TTL \
+    --simulation-id 42 \
+    --environment RESIDENTIAL
+```
+
+This will assign the value `42` to the `simulationId` variable and export
+the data in the `RESIDENTIAL` output environment into the file `export.ttl`
+using the TURTLE format.
+
+## Command-Line Reference
+
+```
+ -e,--environment <environment>       environment name to export
+ -f,--format <format>                 TURTLE (ttl) or XML; default=TTL
+ -h,--help                            displays usage information
+ -i,--input <input>                   input ESO file
+ -n,--simulation-id <simulation id>   simulation Id
+ -o,--output <output>                 output file path; if not given,
+                                      output is stdout
+ -p,--properties <properties>         path to the properties mapping file
+ -r,--resources <resources>           path to the resources mapping file
+ -u,--units <units>                   path to the units mapping file
+ -x,--observation <observation>       path to the observation mapping file
+```
 
 ## Variables Reference
 
