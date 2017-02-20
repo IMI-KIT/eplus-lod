@@ -4,7 +4,7 @@ Exposes EnergyPlus simulation output files as linked open data.
 
 ## Concept
 
-Conceptually, the library draws upon the SSN Ontology. The best way to get
+Conceptually, the exporter draws upon the SSN Ontology. The best way to get
 started is to familiarize yourself with the ontology by reading the
 [original paper](http://dx.doi.org/10.1016/j.websem.2012.05.003).
 
@@ -14,7 +14,7 @@ observation, the _property_, or the aspect of the feature that is being
 observed, the _sensor_ that has performed the measurement, and the _observation
 result_.
 
-This library assumes that the four entities are indicated in the data
+This tool assumes that the four entities are indicated in the data
 dictionary section of the simulation output file. For example, given the line
 ```
 21,11,Electricity:Building [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
@@ -29,7 +29,7 @@ we can assign:
 Additionally, the line indicates the unit of measurement, denoted in this case
 by J, which is the symbol for the joule.
 
-If the library can distinguish those five entities in the data dictionary, it
+If the exporter can distinguish those five entities in the data dictionary, it
 will produce an Observation and a corresponding Observation Result from the
 combination. The disambiguation is guided by four
 [mapping files](https://github.com/attadanta/rdf-mapper) that serve
@@ -37,8 +37,9 @@ as a configuration. They are described below.
 
 ### Resources
 
-The `Resources.xml` file describes the mapping of the entities. The entity
-names should correspond to the strings found in the data dictionary. Example:
+The `Resources.xml` file describes the mapping of the features of interest.
+The entity names should correspond to the strings found in the data dictionary.
+Example:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -60,7 +61,7 @@ names should correspond to the strings found in the data dictionary. Example:
 
 This will match `Facility` in the data dictionary and, if the other components
 are also present, construct an Observation linking to the Feature of Interest
-with the indicated `uri` URL pattern.
+with the indicated `uri` pattern.
 
 Note that you can completely customize the URL mapping and the types
 assignment. Should you decide not to align with the SSN ontology, you are free to omit
@@ -70,11 +71,12 @@ be mapped against the data dictionary item, which may not provide enough context
 to define the property values sufficiently.
 
 The `simulationId` fragment serves to distinguish the originating simulation
-run and is optional. This named variable is injected externally as we will see below.
+run and is optional. This named variable is injected externally via a command-
+line parameter as we shall see below.
 
 ### Properties
 
-Observation properties are configured in the `Properties.xml` files. An example
+Observation properties are configured in the `Properties.xml` file. An example
 is given below.
 
 ```xml
@@ -102,7 +104,7 @@ is given below.
 Again, the `name` tag is matched against the data dictionary item and hence
 must be identical with the data dictionary contents.
 
-To build a URL for the properties, we can use the `resource` named variable
+To build URLs for the properties, we can use the `resource` named variable
 to indicate a logical link with the resource entity. To make the relationship
 explicit, you could also add a [ssn:isPropertyOf](https://www.w3.org/2005/Incubator/ssn/ssnx/ssn#isPropertyOf)
 object property assignment pointing to the `resourceURL`.
@@ -140,7 +142,7 @@ Here, we map directly to the concepts of the OM ontology.
 ### Observation
 
 Lastly, we interlink the concepts described thus far by implementing the
-Observation Pattern. The configuration is given by the `Observation.xml`,
+Observation Pattern. The configuration is given by `Observation.xml`,
 which should define the following entity mappings.
 
 #### Sensor
@@ -183,9 +185,9 @@ simulation values. Below, we use a combination of the `variableId` and
 
 #### Observation
 
-The `Observation` entity configures the central entity in the Observation
+The `Observation` mapping configures the central entity in the Observation
 pattern. By now, it should be obvious how to construct it keeping in mind
-that the mapper remembers the URLs of the entities defined above.
+that the mapper remembers the URLs of the entities thus far.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
